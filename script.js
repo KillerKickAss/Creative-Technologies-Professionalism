@@ -122,8 +122,8 @@
     ctx.fillStyle = FOOD;
     ctx.beginPath();
     ctx.arc(ox + (food % cols) * CELL + CELL / 2,
-            oy + Math.floor(food / cols) * CELL + CELL / 2,
-            size / 2, 0, Math.PI * 2);
+      oy + Math.floor(food / cols) * CELL + CELL / 2,
+      size / 2, 0, Math.PI * 2);
     ctx.fill();
 
     // body, fading toward the tail
@@ -133,14 +133,14 @@
       const alpha = 0.18 + 0.32 * (i / len);
       ctx.fillStyle = `rgba(${BODY}, ${alpha})`;
       ctx.fillRect(ox + (c % cols) * CELL + pad,
-                   oy + Math.floor(c / cols) * CELL + pad, size, size);
+        oy + Math.floor(c / cols) * CELL + pad, size, size);
     }
 
     // head
     const h = snake[len - 1];
     ctx.fillStyle = HEAD;
     ctx.fillRect(ox + (h % cols) * CELL + pad,
-                 oy + Math.floor(h / cols) * CELL + pad, size, size);
+      oy + Math.floor(h / cols) * CELL + pad, size, size);
   }
 
   function start() {
@@ -165,3 +165,25 @@
 
   start();
 })();
+
+// Show one post at a time
+const posts = document.querySelectorAll('article');
+const links = document.querySelectorAll('nav a');
+
+function showPost(id) {
+  posts.forEach(p => p.classList.toggle('active', p.id === id));
+  links.forEach(a => a.classList.toggle('current', a.getAttribute('href') === '#' + id));
+}
+
+links.forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const id = a.getAttribute('href').slice(1);
+    showPost(id);
+    history.replaceState(null, '', '#' + id);
+  });
+});
+
+// On load, show the post in the web address, or the first one
+const wanted = location.hash.slice(1);
+showPost(document.getElementById(wanted) ? wanted : posts[0].id);

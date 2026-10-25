@@ -172,3 +172,16 @@ article p {
     font-size: 1.35rem;
   }
 }
+
+/* Only the selected post is visible */
+article {
+  display: none;
+}
+article.active {
+  display: block;
+}
+
+/* Highlight the link for the post you're on */
+nav a.current {
+  text-decoration: underline;
+}
