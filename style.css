@@ -181,6 +181,13 @@ article.active {
   display: block;
 }
 
+article img {
+  display: block;
+  margin: 1.5rem auto;
+  max-width: 100%;
+  height: auto;
+}
+
 /* Highlight the link for the post you're on */
 nav a.current {
   text-decoration: underline;
