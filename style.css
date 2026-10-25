@@ -185,3 +185,37 @@ article.active {
 nav a.current {
   text-decoration: underline;
 }
+
+/* Previous / Next buttons */
+.pager {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+}
+
+.pager button {
+  font: inherit;
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  color: var(--accent);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pager button:hover:not(:disabled),
+.pager button:focus-visible {
+  border-color: var(--accent);
+}
+
+.pager button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}

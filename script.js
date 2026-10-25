@@ -166,24 +166,35 @@
   start();
 })();
 
-// Show one post at a time
-const posts = document.querySelectorAll('article');
+// Show one post at a time, with Previous / Next
+const posts = Array.from(document.querySelectorAll('article'));
 const links = document.querySelectorAll('nav a');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+let current = 0;
 
-function showPost(id) {
-  posts.forEach(p => p.classList.toggle('active', p.id === id));
+function showPost(index) {
+  current = index;
+  const id = posts[index].id;
+  posts.forEach((p, i) => p.classList.toggle('active', i === index));
   links.forEach(a => a.classList.toggle('current', a.getAttribute('href') === '#' + id));
+  prevBtn.disabled = index === 0;
+  nextBtn.disabled = index === posts.length - 1;
+  history.replaceState(null, '', '#' + id);
+  window.scrollTo({ top: 0 });
 }
 
 links.forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
-    const id = a.getAttribute('href').slice(1);
-    showPost(id);
-    history.replaceState(null, '', '#' + id);
+    const index = posts.findIndex(p => '#' + p.id === a.getAttribute('href'));
+    if (index !== -1) showPost(index);
   });
 });
 
+prevBtn.addEventListener('click', () => showPost(current - 1));
+nextBtn.addEventListener('click', () => showPost(current + 1));
+
 // On load, show the post in the web address, or the first one
-const wanted = location.hash.slice(1);
-showPost(document.getElementById(wanted) ? wanted : posts[0].id);
+const start = posts.findIndex(p => p.id === location.hash.slice(1));
+showPost(start === -1 ? 0 : start);
